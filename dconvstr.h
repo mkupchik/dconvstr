@@ -98,7 +98,7 @@ int  dconvstr_print(
  *
  *  In general, interface of this function is similar to strtod(3), except for returning overflow
  *  condition instead of setting errno. If you want just to convert C-style string to double with
- *  error checking, then set input_end != NULL and use ( ret_value != 1 )&&( **input_end == 0 )
+ *  error checking, then set input_end != NULL and use ( ret_value != 0 )&&( **input_end == 0 )
  *  condition as an indication of successful conversion.
  *
  */
