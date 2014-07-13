@@ -1,13 +1,16 @@
 
 Bijective, heapless and bignumless conversion of IEEE 754 double to string and vice versa
+
 http://www.gurucoding.com/en/dconvstr/
+
 Copyright (c) 2014 Mikhail Kupchik <Mikhail.Kupchik@prime-expert.com>
+
 
 # About this project
 dconvstr is an implementation of IEEE 754 double to string conversion and vice versa.
 Much better implementation than found in most C runtime libraries these days.
 
-# Quality criteria
+## Quality criteria
 String to IEEE 754 double and vice versa conversion routines should conform 
 to the following limitations:
 * Bijectivity: perform double-to-string-and-back-to-double conversion without loss of precision
@@ -18,12 +21,12 @@ to the following limitations:
 * Speed: perform as fast as possible, don't depend on big numbers library to do the job,
   manage to retain bijectivity while operating within dynamic range of machine registers.
 
-# Overview of other implementations
-## [Apache APR](https://svn.apache.org/repos/asf/apr/apr/trunk/strings/apr_snprintf.c)
+## Overview of other implementations
+### [Apache APR](https://svn.apache.org/repos/asf/apr/apr/trunk/strings/apr_snprintf.c)
 Very simple implementation not aiming for bijectivity. Accumulates rounding error during conversion.
 Does not perform reasonable rounding. Does not handle special cases (infinity and NaN).
 
-## [gdtoa library by David M. Gay](http://svnweb.freebsd.org/base/head/contrib/gdtoa/)
+### [gdtoa library by David M. Gay](http://svnweb.freebsd.org/base/head/contrib/gdtoa/)
 Also available in the form of [single file](http://www.netlib.org/fp/dtoa.c).
 Quite popular implementation. Used in BSD libc, Bionic/Android libc, by Python, and by 
 Javascript implementation in Mozilla Firefox web browser. Available in Windows via libmingex.a library.
@@ -32,23 +35,23 @@ big numbers library for bijectivity. Allocates heap memory. Slow (see benchmark 
 Also older versions of this library [violated strict aliasing rules](http://patrakov.blogspot.com/2009/03/dont-use-old-dtoac.html)
 and required adaptation. 
 
-## [GNU glibc](http://www.gnu.org/software/libc/)
+### [GNU glibc](http://www.gnu.org/software/libc/)
 glibc implementation of double/string conversion (stdio-common/printf_fp.c, stdlib/strtod_l.c) depends on 
 excerpt from GNU MP library for bijectivity (*__mpn_mul*, *__mpn_lshift*, *__mpn_rshift*, *__mpn_cmp*).
 Allocates heap memory by default, but tries to avoid heap allocations by using alloca(3) if buffers 
 are small enough. Slow (see benchmark below). GNU quadmath library (part of gcc) follows the same approach.
 
-## uClibc, dietlibc and AVR libc
+### uClibc, dietlibc and AVR libc
 All of them use inexact algoritms not aiming for bijectivity akin to Apache APR, but handle special cases
 (infinity and NaN). They avoid expensive computation in bignums at the cost of losing precision.
 Also they don't perform reasonable rounding. AVR libc is notable for implementing 64-bit computations 
 in manually optimized 8-bit assembly.
 
-## [Solaris libc](https://github.com/joyent/illumos-joyent/blob/master/usr/src/lib/libc/port/fp/decimal_bin.c)
+### [Solaris libc](https://github.com/joyent/illumos-joyent/blob/master/usr/src/lib/libc/port/fp/decimal_bin.c)
 At the time of writing, this legacy of Sun Microsystems is known as OpenIndiana/Illumos.
 Implements own bignums library. Overall code quality looks good. Calls malloc(3) in *__big_float_times_power*.
 
-## Java and Go programming languages
+### Java and Go programming languages
 Native implementation of double/string conversion which depends on natively implemented bignum library.
 Hence bijective, but very slow.
 
@@ -66,7 +69,7 @@ Implemented inside conv.lib, source code for it is not shipped with compiler's r
 studied as a black box. Bijective, not using heap, not doing deep stack allocations. But without 
 reasonable rounding, e.g. printf( "%.17f", 0.6 ) yields "0.59999999999999998".
 
-# Overview of this implementation
+## Overview of this implementation
 This implementation provides bijectivity which is confirmed by stress test.
 
 Reasonable rounding in this library is performed without scanning for repeating 9s at the end 
@@ -83,7 +86,7 @@ modern hardware by utilizing 128-bit unsigned multiplication and bit scan instru
 dconvstr library is licensed under 2-clause BSD license, so it's legally compatible both with
 commercial and open source code.
 
-# Benchmark
+## Benchmark
 All results are in favour of dconvstr.
 Table below shows ratio between libc running time and dconvstr running time.
 
