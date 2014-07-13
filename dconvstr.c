@@ -1514,7 +1514,7 @@ static inline unsigned int  count_leading_zeros( uint64_t  a )
     unsigned long  most_significant_bit_number = 0;
     _BitScanReverse64( &most_significant_bit_number, a );
     return  63 - most_significant_bit_number;
-#elif defined(_MSC_VER) && defined(_M_X64)
+#elif defined(_MSC_VER) && (!defined(_M_X64))
     if( a <= 0xFFFFFFFFULL )
     {
         unsigned long  most_significant_bit_number = 0;
