@@ -297,6 +297,40 @@ static void  single_static_test( const char*  fmt, const char*  str, double  val
 
 /**
  *
+ *  Ensure string argument is not parseable
+ *
+ */
+static void  ensure_not_parseable( const char*  str )
+{
+    const char*  str_end          = str + strlen( str );
+    const char*  str_returned_end = NULL;
+    double       val              = 0.0;
+    int          erange_condition = 1;
+    int  dconvstr_scan_status = dconvstr_scan(
+        str, &str_returned_end, &val, &erange_condition
+    );
+    if(! dconvstr_scan_status )
+    {
+        fprintf(
+            stderr,
+            "Unexpected internal error in non-parseability test\n"
+            "Test failed for str=%s\n", str
+        );
+        exit(-1);
+    }
+    if( str_returned_end == str_end )
+    {
+        fprintf(
+            stderr,
+            "Unexpected positive result in non-parseability test\n"
+            "Test failed for str=%s\n", str
+        );
+        exit(-1);
+    }
+}
+
+/**
+ *
  *  Execute all static tests
  *
  */
@@ -349,6 +383,26 @@ static void  all_static_tests()
     single_static_test( "%g",          "1e+06",                    1000000.0, 1 );
     single_static_test( "%g",          "10",                            10.0, 1 );
     single_static_test( "%g",          "0.02",                          0.02, 1 );
+
+    ensure_not_parseable( "."        );
+    ensure_not_parseable( ".e"       );
+    ensure_not_parseable( ".e+"      );
+    ensure_not_parseable( ".e-"      );
+    ensure_not_parseable( "1.0e"     );
+    ensure_not_parseable( "1.0e+"    );
+    ensure_not_parseable( "1.0e-"    );
+    ensure_not_parseable( "e+100"    );
+    ensure_not_parseable( "1.1."     );
+    ensure_not_parseable( "1.1.e+22" );
+    ensure_not_parseable( ".1."      );
+    ensure_not_parseable( ".1.e+22"  );
+    ensure_not_parseable( "1.1e0+22" );
+    ensure_not_parseable( "1.1e0-22" );
+    ensure_not_parseable( ".-1"      );
+    ensure_not_parseable( "1.1e+.5"  );
+    ensure_not_parseable( "1.1e-.5"  );
+    ensure_not_parseable( "1.1e-22-" );
+    ensure_not_parseable( "1.1e-22+" );
 }
 
 /**

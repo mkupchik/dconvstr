@@ -2784,10 +2784,11 @@ int  dconvstr_scan(
                 break;
         }
     }
+    if((! flag_syntax_error )&&(( state == S0 )||( state == S1 )||( state == S3 )||
+                                ( state == S5 )||( state == S6 )))
+        flag_syntax_error = 1;
     if( input_end )
-        *input_end = s;
-    // caller detects syntax error using condition ( **input_end != 0 ),
-    // and in our context ( flag_syntax_error = 1 ) is just a way to escape parser loop
+        *input_end = flag_syntax_error ? input : s;
 
     // 3. Zero out the tail of mantissa.
     //    Move decimal point to the right side of mantissa (adjust exponent offset).
