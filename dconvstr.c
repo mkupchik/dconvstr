@@ -2310,7 +2310,10 @@ int  dconvstr_print(
     //    Decimal point is located on the right side of decimal mantissa
     uint8_t  decimal_mantissa[20];
     if( mantissa == 0 )
+    {
         memset( decimal_mantissa, 0, sizeof(decimal_mantissa) );
+        exponent = -18;
+    }
     else
     {
         if(! convert_binary_to_extended_decimal( mantissa, exponent, &mantissa, &exponent ) )

@@ -332,6 +332,10 @@ static void  all_static_tests()
     single_static_test( "%g",          "0.1234",                      0.1234, 1 );
     single_static_test( "%g",          "0.001234",                  0.001234, 1 );
     single_static_test( "%.60g",       "100000000000000000000",         1e20, 1 );
+    single_static_test( "%f",          "0.000000",                       0.0, 1 );
+    single_static_test( "%f",          "-0.000000",                     -0.0, 1 );
+    single_static_test( "%g",          "0",                              0.0, 1 );
+    single_static_test( "%g",          "-0",                            -0.0, 1 );
 
     single_static_test( "%6.5f",       "0.10000",       0.099999999860301614, 0 );
     single_static_test( "%6.5f",       "0.10000",                         .1, 1 );
