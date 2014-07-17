@@ -1,14 +1,14 @@
 
-Bijective, heapless and bignumless conversion of IEEE 754 double to string and vice versa
+# DConvStr: A better way to convert between double and string
+
+## About this project
+dconvstr is an implementation of IEEE 754 double to string and vice versa conversion routines.
+
+Much better implementation than found in most C runtime libraries these days.
 
 http://www.gurucoding.com/en/dconvstr/
 
 Copyright (c) 2014 Mikhail Kupchik <Mikhail.Kupchik@prime-expert.com>
-
-
-# About this project
-dconvstr is an implementation of IEEE 754 double to string conversion and vice versa.
-Much better implementation than found in most C runtime libraries these days.
 
 ## Quality criteria
 String to IEEE 754 double and vice versa conversion routines should conform 
