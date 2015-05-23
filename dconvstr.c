@@ -1473,8 +1473,8 @@ static inline void  multiply_128(
     // (if processor has this instruction and compiler allows for using it).
 #if (defined(__GNUC__) || defined(__clang__)) && defined(__SIZEOF_INT128__) && (__SIZEOF_INT128__ == 16)
     unsigned __int128  value_w = ((unsigned __int128)u) * v;
-    w[0] = ((uint64_t)( value_w & 0xFFFFFFFFULL ));
-    w[1] = ((uint64_t)( value_w >> 64           ));
+    w[0] = ((uint64_t)( value_w       ));
+    w[1] = ((uint64_t)( value_w >> 64 ));
 #elif defined(_MSC_VER) && defined(_M_X64)
     w[0] = _umul128( u, v, w + 1 );
 #else
